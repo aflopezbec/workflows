@@ -11,3 +11,7 @@ This action can solved this error "Create Artifact Container failed: Artifact st
 ## Deploy android to store
 [link](/.github/workflows/android_deploy_to_play_console.yml)
 This action generate aab file and upload this file to google play console in the internal track.
+
+## Build android debug apk for firebase
+[link](/.github/workflows/android_build_to_app_distribution.yml)
+This action generate apk file with debug mode and upload this file to app distribution of firebase.
