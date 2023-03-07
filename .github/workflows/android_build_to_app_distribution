@@ -1,0 +1,35 @@
+name: Build to app distribution (Firebase)
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  TESTER_GROUPS: testers
+jobs:
+  build_apk:
+    name: Build Flutter (Android)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '18.x'
+    - uses: subosito/flutter-action@v2
+      with:
+          flutter-version: '3.7.6'
+          channel: 'stable'
+    - run: | 
+          flutter clean
+          flutter pub get
+    - name: create folder
+      run: mkdir ~/.android/
+    - run: flutter build apk --debug
+    - name: Upload APK
+      uses: wzieba/Firebase-Distribution-Github-Action@master
+      with:
+        appId: ${{ secrets.FIREBASE_APP_ID }}
+        token: ${{secrets.FIREBASE_TOKEN}}
+        groups: ${{ env.TESTER_GROUPS }}
+        file: build/app/outputs/flutter-apk/app-debug.apk
